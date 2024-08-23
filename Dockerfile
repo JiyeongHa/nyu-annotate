@@ -82,10 +82,16 @@ RUN mamba update -y -n base mamba
 RUN mamba update --all -y
 #RUN mamba install -y -cconda-forge nibabel s3fs
 RUN mamba install -y -cconda-forge \
-          ipywidgets pip traitlets webcolors jsonschema-with-format-nongpl
+        ipywidgets \
+        pip \
+        traitlets \
+        webcolors \
+        jsonschema-with-format-nongpl \
+        'tornado == 6.1'
 RUN pip install --upgrade setuptools
 RUN pip install ipycanvas pyyaml neuropythy nibabel s3fs
 RUN pip install diplib
+
 # Install collapsible cell extensions...
 #RUN mamba install -cconda-forge jupyter_contrib_nbextensions \
 # && jupyter contrib nbextension install --user \
@@ -96,10 +102,10 @@ RUN mkdir -p /home/$NB_USER/.jupyter/custom
 COPY config/requirements.txt /build/
 RUN pip install -r /build/requirements.txt
 # For some reason, tornado is causing major problems, so we downgrade to 6.1 here:
-RUN pip install \
-          'tornado == 6.1' \
-          'jupyter-client == 7.3.2' \
-          'jupyter-server < 2.0.0'
+#RUN pip install \
+#          'tornado == 6.1' \
+#          'jupyter-client == 7.3.2' \
+#          'jupyter-server < 2.0.0'
 
 
 # Copy User Files ##############################################################
